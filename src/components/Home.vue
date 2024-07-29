@@ -1,18 +1,22 @@
 <template>
   <div class="page--width">
+    <!-- Home Navbar -->
     <div class="home">
-      <a class="active float__start" href="#home">Home</a>
-      <a href="#news" class="float__end">Login</a>
-      <a href="#contact " class="float__end">Contact</a>
-      <a href="#about" class="float__end">About</a>
-      <a href="#cart" class="float__end">
-        <img src="../assets/cart.svg" alt="cart" height="14px" /> Cart
-        <span class="number--badge"> {{ favoriteProduct.length }}</span>
+      <a class="active home__start" href="#home">Home</a>
+      <a href="#news" class="home__end">Login</a>
+      <a href="#contact " class="home__end">Contact</a>
+      <a href="#about" class="home__end">About</a>
+      <a href="#cart" class="home__end">
+        <div class="cart--number">
+          <img src="../assets/cart.svg" alt="cart" height="14px" /> Cart&nbsp;
+          <span class="number--badge"> {{ favoriteProduct.length }}</span>
+        </div>
       </a>
     </div>
-    <div class="grid-container">
+     <!-- Card grid layout -->
+    <div class="grid--container">
       <div
-        class="grid-item"
+        class="grid__item"
         v-for="(product, index) in fetchedProduct"
         :value="product"
         :key="index"
@@ -20,7 +24,7 @@
         @mouseover="showPrice(product)"
         @mouseleave="hideprice(product)"
       >
-        <div class="boxStyle">
+        <div class="box--style">
           <span v-for="(fav, index) in displayIcon" :value="fav" :key="index">
             <img
               src="../assets/heart-svgrepo-com.svg"
@@ -41,6 +45,7 @@
         </div>
       </div>
     </div>
+    <!-- Cart table layout -->
     <div id="cart" class="cart--align" v-if="cartData.length > 0">
       <h2>Products in cart</h2>
       <table class="customers">
@@ -57,7 +62,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import jsonProduct from "../data.json";
 export default {
   name: "Home",
@@ -76,6 +81,7 @@ export default {
     this.fetchData();
   },
   methods: {
+    // To fetch data from APi
     fetchData() {
       fetch("https://neodigm.github.io/FED_Programming_Challenge/products.json")
         .then((response) => {
@@ -88,14 +94,17 @@ export default {
           console.error(err);
         });
     },
+    // Show price when mouse hover text
     showPrice(product) {
       this.priceToDisplay = true;
       this.productToDisplayPrice = product.product;
     },
+    // Hide price when mouse not in text
     hideprice() {
       this.priceToDisplay = false;
       this.productToDisplayPrice = null;
     },
+    // Add product to favorite list when clicks it.
     favoriteIcon(product) {
       let favoriteProduct = product;
       this.favoriteProduct.push(favoriteProduct);
@@ -151,34 +160,34 @@ body {
   background-color: #0a2885;
   color: white;
 }
-.float__start {
+.home__start {
   float: inline-start;
 }
-.float__end {
+.home__end {
   float: inline-end;
 }
 
-.grid-container {
+.grid--container {
   display: grid;
   grid-template-columns: auto auto auto;
   background-color: #fff;
   padding-top: 10px;
 }
-.grid-item {
+.grid__item {
   background-color: #e7f1ff;
   padding: 20px;
   font-size: 30px;
   text-align: center;
 }
 
-.boxStyle {
+.box--style {
   border-radius: 12px;
   position: relative;
   height: 35vh;
   width: 62vh;
   border: 3px solid #0f3cc9;
 }
-.boxStyle div {
+.box--style div {
   margin: 0;
   position: absolute;
   top: 50%;
@@ -192,14 +201,16 @@ body {
   padding: 1vh;
 }
 .number--badge {
-  font-size: 14px;
-  font-weight: 900;
-  position: absolute;
-  border: 3px solid #0f3cc9;
-  border-radius: 60%;
-  height: 14px;
-  width: 8px;
-  background: blue;
+    margin-top: -4px;
+    font-size: 14px;
+    font-weight: 900;
+    position: absolute;
+    border: 3px solid #000;
+    border-radius: 60%;
+    height: 14px;
+    width: 14px;
+    padding: 3px;
+  /*background: blue;*/
 }
 
 .price--text {
@@ -226,7 +237,7 @@ body {
 }
 
 .customers td,
-#customers th {
+.customers th {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -244,6 +255,10 @@ body {
   padding-bottom: 12px;
   background-color: #3d6bfc;
   color: white;
+}
+
+.cart--number{
+  width: 90px;
 }
 </style>
   
